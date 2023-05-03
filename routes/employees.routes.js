@@ -17,9 +17,12 @@ router.get('/employees/random', (req, res) => {
 });
 
 router.get('/employees/:id', (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(404).json({ message: '404 Not found' });
+  }
   req.db.collection('employees').findOne({ _id: ObjectId(req.params.id) }, (err, data) => {
     if(err) res.status(500).json({ message: err });
-    else if(!data) res.status(404).json({ message: 'Not found' });
+    else if(!data) res.status(404).json({ message: '404 Not found' });
     else res.json(data);
   });
 });
@@ -34,6 +37,9 @@ router.post('/employees', (req, res) => {
 
 router.put('/employees/:id', (req, res) => {
   const { name } = req.body;
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(404).json({ message: '404 Not found' });
+  }
   req.db.collection('employees').updateOne({ _id: ObjectId(req.params.id) }, { $set: { name: name }}, err => {
     if(err) res.status(500).json({ message: err });
     else res.json({ message: 'OK' });
@@ -41,6 +47,9 @@ router.put('/employees/:id', (req, res) => {
 });
 
 router.delete('/employees/:id', (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(404).json({ message: '404 Not found' });
+  }
   req.db.collection('employees').deleteOne({ _id: ObjectId(req.params.id) }, err => {
     if(err) res.status(500).json({ message: err });
     else res.json({ message: 'OK' });
