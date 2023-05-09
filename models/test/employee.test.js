@@ -1,6 +1,5 @@
 const Employee = require('../employee.model.js');
 const expect = require('chai').expect;
-const mongoose = require('mongoose');
 
 describe('Employee', () => {
 
@@ -42,9 +41,5 @@ describe('Employee', () => {
     });
     const err = employee.validateSync();
     expect(err).to.not.exist;
-  });
-
-  after(() => {
-    mongoose.models = {};
   });
 });
