@@ -49,8 +49,11 @@ describe('GET /api/departments', () => {
     const res = await request(server).get(`/api/departments/${departmentId}`);
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.an('object');
-    expect(res.body._id).to.be.equal(departmentId);
-    expect(res.body.name).to.be.equal(departmentName);
+    expect(res.body).to.be.deep.equal({
+      __v: 0,
+      _id: departmentId,
+      name: departmentName
+    });
   });
 
   it('/:id should return error if id is incorrect', async () => {
@@ -62,6 +65,5 @@ describe('GET /api/departments', () => {
     const res = await request(server).get('/api/departments/random');
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.an('object');
-    expect(res.body).to.not.be.null;
   });
 });
