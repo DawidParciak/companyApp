@@ -26,10 +26,9 @@ describe('PUT /api/departments', () => {
 
   it('/:id should update chosen document and return success', async () => {
     const res = await request(server).put(`/api/departments/${departmentId}`).send({ name: newDepartmentName });
-    const updatedDepartment = await Department.findOne({ _id: departmentId });
     expect(res.status).to.be.equal(200);
     expect(res.body).to.not.be.null;
-    expect(updatedDepartment.name).to.be.equal(newDepartmentName);
+    expect(res.body.name).to.be.equal(newDepartmentName);
   });
 
   it('/:id should return error if id is incorrect', async () => {

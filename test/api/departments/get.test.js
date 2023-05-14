@@ -34,17 +34,21 @@ describe('GET /api/departments', () => {
     expect(res.body).to.be.an('array');
     expect(res.body.length).to.be.equal(2);
 
-    expect(res.body[0]).to.have.property('_id', departmentId);
-    expect(res.body[0]).to.have.property('name', departmentName);
-    expect(res.body[1]).to.have.property('_id', departmentId2);
-    expect(res.body[1]).to.have.property('name', departmentName2);
+    expect(res.body).to.deep.equal([{ 
+      __v: 0,
+      _id: departmentId, 
+      name: departmentName 
+    }, {
+      __v: 0,
+      _id: departmentId2, 
+      name: departmentName2 
+    }]);;
   });
 
   it('/:id should return one department by :id ', async () => {
     const res = await request(server).get(`/api/departments/${departmentId}`);
     expect(res.status).to.be.equal(200);
     expect(res.body).to.be.an('object');
-    expect(res.body).to.not.be.null;
     expect(res.body._id).to.be.equal(departmentId);
     expect(res.body.name).to.be.equal(departmentName);
   });
